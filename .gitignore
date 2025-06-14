@@ -1,0 +1,17 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Firebase credentials
+services.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
