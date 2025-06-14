@@ -83,15 +83,6 @@ bot.onText(/\/loc\s+([-\d.]+)\s+([-\d.]+)/, async (msg, match) => {
   }
 });
 
-bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
-
-  bot.sendMessage(
-    msg.chat.id,
-    "Welcome! Send me a location (latitude and longitude) using the format /loc <latitude> <longitude>"
-  );
-});
-
 http
   .createServer((req, res) => {
     res.writeHead(200);
