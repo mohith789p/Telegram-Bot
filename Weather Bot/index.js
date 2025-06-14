@@ -4,6 +4,8 @@ const axios = require("axios");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const services = JSON.parse(process.env.FIREBASE_CONFIG);
+const http = require("http");
+const PORT = process.env.PORT || 3000;
 
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
@@ -89,3 +91,12 @@ bot.on("message", (msg) => {
     "Welcome! Send me a location (latitude and longitude) using the format /loc <latitude> <longitude>"
   );
 });
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Telegram Bot is running");
+  })
+  .listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
