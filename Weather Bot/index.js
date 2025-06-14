@@ -3,7 +3,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const services = require("./services.json");
+const services = JSON.parse(process.env.FIREBASE_CONFIG);
 
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
