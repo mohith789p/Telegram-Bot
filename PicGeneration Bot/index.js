@@ -1,17 +1,21 @@
+require("dotenv").config();
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
+const { initializeApp, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
+const services = JSON.parse(process.env.FIREBASE_CONFIG);
+const http = require("http");
+const PORT = process.env.PORT || 3000;
 const fs = require("fs");
-const admin = require("firebase-admin");
 
-// Initialize Firebase
-const services = require("./services.json"); // Ensure this file is present
-admin.initializeApp({
-  credential: admin.credential.cert(services),
-});
-const db = admin.firestore();
-
-const token = "7947199665:AAHRrzlQu9R-4qgEpTqsdaP9mJuD3ESwusU";
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
+
+initializeApp({
+  credential: cert(services),
+});
+
+const db = getFirestore();
 
 const width = 1024;
 const height = 1024;
@@ -83,3 +87,12 @@ bot.on("message", async (msg) => {
 });
 
 console.log("Bot is running...");
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Telegram Bot is running");
+  })
+  .listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });

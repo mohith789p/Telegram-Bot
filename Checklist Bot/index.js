@@ -1,9 +1,11 @@
-const token = "7445002659:AAF_aMiVQeemQJakqfgzENKd2QIxxgL12wQ";
+require("dotenv").config();
 const TelegramBot = require("node-telegram-bot-api");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const services = require("./services.json");
-
+const services = JSON.parse(process.env.FIREBASE_CONFIG);
+const http = require("http");
+const PORT = process.env.PORT || 3000;
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 initializeApp({
@@ -184,3 +186,12 @@ bot.on("message", (msg) => {
 });
 
 console.log("Bot is running...");
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Telegram Bot is running");
+  })
+  .listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
